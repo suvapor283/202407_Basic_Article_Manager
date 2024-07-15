@@ -54,6 +54,26 @@ public class Main {
 					System.out.printf("%d	|	%s\n", article.id, article.title);
 				}
 			}
+			
+			else if (cmd.startsWith("article detail ")) {
+				String[] a = cmd.split(" ");
+				int chkNum = Integer.parseInt(a[2]);
+				
+				for (Article article : articles) {
+					if (chkNum != article.id) {
+						System.out.printf("%d번 게시물은 존재하지 않습니다.", chkNum);
+						break;
+					}
+				}
+				
+				for (Article article : articles) {
+					if (chkNum == article.id) {
+						System.out.println("번호 : " + article.id);
+						System.out.println("제목 : " + article.title);
+						System.out.println("내용 : " + article.body);
+					}
+				}
+			}
 
 			else {
 				System.out.println("존재하지 않는 명령어입니다.");
