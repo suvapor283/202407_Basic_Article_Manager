@@ -71,6 +71,44 @@ public class Main {
 				articles.remove(foundArticle);
 				System.out.println(id + "번 게시물이 삭제되었습니다.");
 			}
+			
+			else if (cmd.startsWith("article modify ")) {
+				String[] cmdBits = cmd.split(" ");
+				int id = 0;
+				
+				try {
+					id = Integer.parseInt(cmdBits[2]);
+					
+				} catch (NumberFormatException e) {
+					System.out.println("명령어가 올바르지 않습니다.");
+					continue;
+				} catch (Exception e) {
+					System.out.println("error : " + e);
+				}
+
+				Article foundArticle = null;
+
+				for (Article article : articles) {
+					if (id == article.id) {
+						foundArticle = article;
+						break;
+					}
+				}
+
+				if (foundArticle == null) {
+					System.out.println(id + "번 게시물은 존재하지 않습니다.");
+					continue;
+				}
+				
+				System.out.print("수정할 제목 : ");
+				String title = sc.nextLine().trim();
+				System.out.print("수정할 내용 : ");
+				String body = sc.nextLine().trim();
+				
+				foundArticle.title = title;
+				foundArticle.body = body;
+				System.out.println(id + "번 게시물이 수정되었습니다.");
+			}
 
 			else if (cmd.equals("article list")) {
 				if (articles.isEmpty()) {
