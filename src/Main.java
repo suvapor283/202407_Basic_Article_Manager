@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
 	public static void main(String[] args) {
 
 		System.out.println("== 프로그램 시작 ==");
@@ -38,6 +39,38 @@ public class Main {
 
 				System.out.println(lastArticleId + "번 글이 생성되었습니다.");
 			}
+			
+			else if (cmd.startsWith("article delete ")) {
+				String[] cmdBits = cmd.split(" ");
+				int id = 0;
+				
+				try {
+					id = Integer.parseInt(cmdBits[2]);
+					
+				} catch (NumberFormatException e) {
+					System.out.println("명령어가 올바르지 않습니다.");
+					continue;
+				} catch (Exception e) {
+					System.out.println("error : " + e);
+				}
+
+				Article foundArticle = null;
+
+				for (Article article : articles) {
+					if (id == article.id) {
+						foundArticle = article;
+						break;
+					}
+				}
+
+				if (foundArticle == null) {
+					System.out.println(id + "번 게시물은 존재하지 않습니다.");
+					continue;
+				}
+				
+				articles.remove(foundArticle);
+				System.out.println(id + "번 게시물이 삭제되었습니다.");
+			}
 
 			else if (cmd.equals("article list")) {
 				if (articles.isEmpty()) {
@@ -55,7 +88,17 @@ public class Main {
 
 			else if (cmd.startsWith("article detail ")) {
 				String[] cmdBits = cmd.split(" ");
-				int id = Integer.parseInt(cmdBits[2]);
+				int id = 0;
+				
+				try {
+					id = Integer.parseInt(cmdBits[2]);
+					
+				} catch (NumberFormatException e) {
+					System.out.println("명령어가 올바르지 않습니다.");
+					continue;
+				} catch (Exception e) {
+					System.out.println("error : " + e);
+				}
 
 				Article foundArticle = null;
 
@@ -75,7 +118,7 @@ public class Main {
 				System.out.println("제목 : " + foundArticle.title);
 				System.out.println("내용 : " + foundArticle.body);
 			}
-
+			
 			else {
 				System.out.println("존재하지 않는 명령어입니다.");
 			}
