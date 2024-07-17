@@ -35,7 +35,7 @@ public class Main {
 				String body = sc.nextLine().trim();
 
 				lastArticleId++;
-				articles.add(new Article(lastArticleId, title, body));
+				articles.add(new Article(lastArticleId, Util.getDateStr(), title, body));
 
 				System.out.println(lastArticleId + "번 글이 생성되었습니다.");
 			}
@@ -46,11 +46,11 @@ public class Main {
 					continue;
 				}
 
-				System.out.println("번호	|	제목");
+				System.out.println("번호	|	제목	|	작성일");
 
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
-					System.out.printf("%d	|	%s\n", article.id, article.title);
+					System.out.printf("%d	|	%s	|	%s\n", article.id, article.title, article.regDate);
 				}
 			}
 			
@@ -78,11 +78,13 @@ public class Main {
 				}
 
 				if (foundArticle == null) {
+					
 					System.out.println(id + "번 게시물은 존재하지 않습니다.");
 					continue;
 				}
 
 				System.out.println("번호 : " + foundArticle.id);
+				System.out.println("작성일 : " + foundArticle.regDate);
 				System.out.println("제목 : " + foundArticle.title);
 				System.out.println("내용 : " + foundArticle.body);
 			}
