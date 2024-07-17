@@ -40,7 +40,21 @@ public class Main {
 				System.out.println(lastArticleId + "번 글이 생성되었습니다.");
 			}
 			
-			else if (cmd.startsWith("article delete ")) {
+			else if (cmd.equals("article list")) {
+				if (articles.isEmpty()) {
+					System.out.println("게시물이 존재하지 않습니다.");
+					continue;
+				}
+
+				System.out.println("번호	|	제목");
+
+				for (int i = articles.size() - 1; i >= 0; i--) {
+					Article article = articles.get(i);
+					System.out.printf("%d	|	%s\n", article.id, article.title);
+				}
+			}
+			
+			else if (cmd.startsWith("article detail ")) {
 				String[] cmdBits = cmd.split(" ");
 				int id = 0;
 				
@@ -67,9 +81,10 @@ public class Main {
 					System.out.println(id + "번 게시물은 존재하지 않습니다.");
 					continue;
 				}
-				
-				articles.remove(foundArticle);
-				System.out.println(id + "번 게시물이 삭제되었습니다.");
+
+				System.out.println("번호 : " + foundArticle.id);
+				System.out.println("제목 : " + foundArticle.title);
+				System.out.println("내용 : " + foundArticle.body);
 			}
 			
 			else if (cmd.startsWith("article modify ")) {
@@ -109,22 +124,8 @@ public class Main {
 				foundArticle.body = body;
 				System.out.println(id + "번 게시물이 수정되었습니다.");
 			}
-
-			else if (cmd.equals("article list")) {
-				if (articles.isEmpty()) {
-					System.out.println("게시물이 존재하지 않습니다.");
-					continue;
-				}
-
-				System.out.println("번호	|	제목");
-
-				for (int i = articles.size() - 1; i >= 0; i--) {
-					Article article = articles.get(i);
-					System.out.printf("%d	|	%s\n", article.id, article.title);
-				}
-			}
-
-			else if (cmd.startsWith("article detail ")) {
+			
+			else if (cmd.startsWith("article delete ")) {
 				String[] cmdBits = cmd.split(" ");
 				int id = 0;
 				
@@ -151,10 +152,9 @@ public class Main {
 					System.out.println(id + "번 게시물은 존재하지 않습니다.");
 					continue;
 				}
-
-				System.out.println("번호 : " + foundArticle.id);
-				System.out.println("제목 : " + foundArticle.title);
-				System.out.println("내용 : " + foundArticle.body);
+				
+				articles.remove(foundArticle);
+				System.out.println(id + "번 게시물이 삭제되었습니다.");
 			}
 			
 			else {
