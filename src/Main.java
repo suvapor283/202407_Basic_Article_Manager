@@ -14,7 +14,7 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println("== 프로그램 시작 ==");
 		
-		testArticleData();
+		makeTestData();
 		
 		Scanner sc = new Scanner(System.in);
 
@@ -44,13 +44,24 @@ public class Main {
 				System.out.println(lastArticleId + "번 글이 생성되었습니다.");
 			}
 
-			else if (cmd.equals("article list")) {
+			else if (cmd.startsWith("article list")) {
+				String[] cmdBits = cmd.split("list");
+				
 				if (articles.isEmpty()) {
 					System.out.println("게시물이 존재하지 않습니다.");
 					continue;
 				}
 
 				System.out.println("번호	|	제목	|		작성일		|	조회수");
+				
+				if (cmdBits.length > 1) {
+					for (Article article : articles) {
+						if (article.title.contains(cmdBits[1].trim())) {
+							System.out.printf("%d	|	%s	|	%s	|	%d\n", article.id, article.title, article.regDate, article.veiwCnt);
+						}
+					}
+					continue;
+				}
 
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
@@ -175,7 +186,7 @@ public class Main {
 		System.out.println("== 프로그램 종료 ==");
 	}
 	
-	private static void testArticleData() {
+	private static void makeTestData() {
 		System.out.println("테스트 게시물 데이터 3개를 생성했습니다!");
 		for (int i = 1; i < 4; i++) {
 			articles.add(new Article(++lastArticleId, Util.getDateStr(), (i + "번"), (i + "번 게시물 내용"), (i * 10)));
