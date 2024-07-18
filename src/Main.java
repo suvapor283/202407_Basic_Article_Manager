@@ -3,16 +3,20 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+	static List<Article> articles;
+	static int lastArticleId;
+	
+	static {
+		articles = new ArrayList<>();
+		lastArticleId = 0;
+	}
 
 	public static void main(String[] args) {
-
 		System.out.println("== 프로그램 시작 ==");
-
+		
+		testArticleData();
+		
 		Scanner sc = new Scanner(System.in);
-
-		List<Article> articles = new ArrayList<>();
-
-		int lastArticleId = 0;
 
 		while (true) {
 
@@ -89,7 +93,7 @@ public class Main {
 				System.out.println("작성일 : " + foundArticle.regDate);
 				System.out.println("제목 : " + foundArticle.title);
 				System.out.println("내용 : " + foundArticle.body);
-				System.out.println("내용 : " + foundArticle.veiwCnt);
+				System.out.println("조회수 : " + foundArticle.veiwCnt);
 			}
 
 			else if (cmd.startsWith("article modify ")) {
@@ -169,5 +173,12 @@ public class Main {
 
 		sc.close();
 		System.out.println("== 프로그램 종료 ==");
+	}
+	
+	private static void testArticleData() {
+		System.out.println("테스트 게시물 데이터 3개를 생성했습니다!");
+		for (int i = 1; i < 4; i++) {
+			articles.add(new Article(++lastArticleId, Util.getDateStr(), (i + "번"), (i + "번 게시물 내용"), (i * 10)));
+		}
 	}
 }
