@@ -1,17 +1,22 @@
+package com.exam.BAM.app;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
-	static List<Article> articles;
-	static int lastArticleId;
+import com.exam.BAM.dto.Article;
+import com.exam.BAM.util.Util;
 
-	static {
-		articles = new ArrayList<>();
-		lastArticleId = 0;
+public class App {
+	private List<Article> articles;
+	private int lastArticleId;
+
+	public App() {
+		this.articles = new ArrayList<>();
+		this.lastArticleId = 0;
 	}
-
-	public static void main(String[] args) {
+	
+	public void run() {
 		System.out.println("== 프로그램 시작 ==");
 
 		makeTestData();
@@ -58,7 +63,7 @@ public class Main {
 					printArticles = new ArrayList<>();
 					
 					for (Article article : articles) {
-						if (article.title.contains(searchKeyword)) {
+						if (article.getTitle().contains(searchKeyword)) {
 							printArticles.add(article);
 						}
 					}
@@ -73,7 +78,7 @@ public class Main {
 
 				for (int i = printArticles.size() - 1; i >= 0; i--) {
 					Article article = printArticles.get(i);
-					System.out.printf("%d	|	%s	|	%s	|	%d\n", article.id, article.title, article.regDate, article.veiwCnt);
+					System.out.printf("%d	|	%s	|	%s	|	%d\n", article.getId(), article.getTitle(), article.getRegDate(), article.getVeiwCnt());
 				}
 			}
 
@@ -94,7 +99,7 @@ public class Main {
 				Article foundArticle = null;
 
 				for (Article article : articles) {
-					if (id == article.id) {
+					if (id == article.getId()) {
 						foundArticle = article;
 						break;
 					}
@@ -106,13 +111,13 @@ public class Main {
 					continue;
 				}
 
-				foundArticle.veiwCnt++;
+				foundArticle.increaseViewCnt();
 
-				System.out.println("번호 : " + foundArticle.id);
-				System.out.println("작성일 : " + foundArticle.regDate);
-				System.out.println("제목 : " + foundArticle.title);
-				System.out.println("내용 : " + foundArticle.body);
-				System.out.println("조회수 : " + foundArticle.veiwCnt);
+				System.out.println("번호 : " + foundArticle.getId());
+				System.out.println("작성일 : " + foundArticle.getRegDate());
+				System.out.println("제목 : " + foundArticle.getTitle());
+				System.out.println("내용 : " + foundArticle.getBody());
+				System.out.println("조회수 : " + foundArticle.getVeiwCnt());
 			}
 
 			else if (cmd.startsWith("article modify ")) {
@@ -132,7 +137,7 @@ public class Main {
 				Article foundArticle = null;
 
 				for (Article article : articles) {
-					if (id == article.id) {
+					if (id == article.getId()) {
 						foundArticle = article;
 						break;
 					}
@@ -148,8 +153,8 @@ public class Main {
 				System.out.print("수정할 내용 : ");
 				String body = sc.nextLine().trim();
 
-				foundArticle.title = title;
-				foundArticle.body = body;
+				foundArticle.setTitle(title);
+				foundArticle.setBody(body);
 				System.out.println(id + "번 게시물이 수정되었습니다.");
 			}
 
@@ -170,7 +175,7 @@ public class Main {
 				Article foundArticle = null;
 
 				for (Article article : articles) {
-					if (id == article.id) {
+					if (id == article.getId()) {
 						foundArticle = article;
 						break;
 					}
@@ -193,8 +198,8 @@ public class Main {
 		sc.close();
 		System.out.println("== 프로그램 종료 ==");
 	}
-
-	private static void makeTestData() {
+	
+	private void makeTestData() {
 		System.out.println("테스트 게시물 데이터 3개를 생성했습니다!");
 		for (int i = 1; i < 4; i++) {
 			articles.add(new Article(++lastArticleId, Util.getDateStr(), (i + "번"), (i + "번 게시물 내용"), (i * 10)));
