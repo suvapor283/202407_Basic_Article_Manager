@@ -1,7 +1,7 @@
 package com.exam.BAM.dto;
 
 public class Article {
-
+	
 	private int id;
 	private String regDate;
 	private String title;

@@ -5,15 +5,20 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.exam.BAM.dto.Article;
+import com.exam.BAM.dto.Member;
 import com.exam.BAM.util.Util;
 
 public class App {
 	private List<Article> articles;
+	private List<Member> members;
 	private int lastArticleId;
+	private int lastMemberId;
 
 	public App() {
 		this.articles = new ArrayList<>();
+		this.members = new ArrayList<>();
 		this.lastArticleId = 0;
+		this.lastMemberId = 0;
 	}
 	
 	public void run() {
@@ -36,8 +41,64 @@ public class App {
 				System.out.println("명령어를 입력해주세요.");
 				continue;
 			}
+			
+			if (cmd.equals("member join")) {
+				String loginId;
+				String loginPw;
+				String name;
+				
+				while (true) {
+					System.out.print("아이디 : ");
+					loginId = sc.nextLine().trim();
+					
+					if (loginId.isEmpty()) {
+						System.out.println("필수 입력 정보입니다.");
+						continue;
+					}
+					
+					for (Member member : members) {
+						if (loginId.equals(member.loginId)) {
+							System.out.println("해당 아이디는 이미 존재하는 아이디입니다.");
+							break;
+						}
+					}
+					break;
+				}
+				
+				while (true) {
+					System.out.print("비밀번호 : ");
+					loginPw = sc.nextLine().trim();
+					
+					if (loginPw.isEmpty()) {
+						System.out.println("필수 입력 정보입니다.");
+						continue;
+					}
+					
+					System.out.print("비밀번호 확인 : ");
+					String chkLoginPw = sc.nextLine().trim();
+					
+					if (chkLoginPw.equals(loginPw) == false) {
+						System.out.println("비밀번호가 일치하지 않습니다.");
+						continue;
+					}
+					break;
+				}
+				
+				while (true) {
+					System.out.print("이름 : ");
+					name = sc.nextLine().trim();
+					
+					if (name.isEmpty()) {
+						System.out.println("필수 입력 정보입니다.");
+						continue;
+					}
+					break;
+				}
+				members.add(new Member(++lastMemberId, loginId, loginPw, name));
+				System.out.println(name + "님 회원가입을 축하합니다 !!");
+			}
 
-			if (cmd.equals("article write")) {
+			else if (cmd.equals("article write")) {
 				System.out.print("제목 : ");
 				String title = sc.nextLine().trim();
 				System.out.print("내용 : ");
