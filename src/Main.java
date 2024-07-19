@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
 	static List<Article> articles;
 	static int lastArticleId;
-	
+
 	static {
 		articles = new ArrayList<>();
 		lastArticleId = 0;
@@ -13,9 +13,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		System.out.println("== 프로그램 시작 ==");
-		
+
 		makeTestData();
-		
+
 		Scanner sc = new Scanner(System.in);
 
 		while (true) {
@@ -45,26 +45,34 @@ public class Main {
 			}
 
 			else if (cmd.startsWith("article list")) {
-				String[] cmdBits = cmd.split("list");
-				
 				if (articles.isEmpty()) {
 					System.out.println("게시물이 존재하지 않습니다.");
 					continue;
 				}
-
-				System.out.println("번호	|	제목	|		작성일		|	조회수");
 				
-				if (cmdBits.length > 1) {
+				List<Article> printArticles = articles;
+
+				String searchKeyword = cmd.substring("article list".length()).trim();
+
+				if (searchKeyword.length() > 0) {
+					printArticles = new ArrayList<>();
+					
 					for (Article article : articles) {
-						if (article.title.contains(cmdBits[1].trim())) {
-							System.out.printf("%d	|	%s	|	%s	|	%d\n", article.id, article.title, article.regDate, article.veiwCnt);
+						if (article.title.contains(searchKeyword)) {
+							printArticles.add(article);
 						}
 					}
-					continue;
+					
+					if (printArticles.size() == 0) {
+						System.out.println("검색결과가 없습니다.");
+						continue;
+					}
 				}
+				
+				System.out.println("번호	|	제목	|		작성일		|	조회수");
 
-				for (int i = articles.size() - 1; i >= 0; i--) {
-					Article article = articles.get(i);
+				for (int i = printArticles.size() - 1; i >= 0; i--) {
+					Article article = printArticles.get(i);
 					System.out.printf("%d	|	%s	|	%s	|	%d\n", article.id, article.title, article.regDate, article.veiwCnt);
 				}
 			}
@@ -185,7 +193,7 @@ public class Main {
 		sc.close();
 		System.out.println("== 프로그램 종료 ==");
 	}
-	
+
 	private static void makeTestData() {
 		System.out.println("테스트 게시물 데이터 3개를 생성했습니다!");
 		for (int i = 1; i < 4; i++) {
