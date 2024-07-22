@@ -24,8 +24,7 @@ public class App {
 	public void run() {
 		System.out.println("== 프로그램 시작 ==");
 
-		makeArticleTestData();
-		makeMemberTestData();
+		makeTestData();
 
 		Scanner sc = new Scanner(System.in);
 
@@ -154,27 +153,13 @@ public class App {
 			}
 
 			else if (cmd.startsWith("article detail ")) {
-				String[] cmdBits = cmd.split(" ");
-				int id = 0;
-
-				try {
-					id = Integer.parseInt(cmdBits[2]);
-
-				} catch (NumberFormatException e) {
+				int id = getIdByCmd(cmd);
+				
+				if (id == 0) {
 					System.out.println("명령어가 올바르지 않습니다.");
-					continue;
-				} catch (Exception e) {
-					System.out.println("error : " + e);
 				}
 
-				Article foundArticle = null;
-
-				for (Article article : articles) {
-					if (id == article.getId()) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
 
 				if (foundArticle == null) {
 					System.out.println(id + "번 게시물은 존재하지 않습니다.");
@@ -191,27 +176,13 @@ public class App {
 			}
 
 			else if (cmd.startsWith("article modify ")) {
-				String[] cmdBits = cmd.split(" ");
-				int id = 0;
-
-				try {
-					id = Integer.parseInt(cmdBits[2]);
-
-				} catch (NumberFormatException e) {
+				int id = getIdByCmd(cmd);
+				
+				if (id == 0) {
 					System.out.println("명령어가 올바르지 않습니다.");
-					continue;
-				} catch (Exception e) {
-					System.out.println("error : " + e);
 				}
 
-				Article foundArticle = null;
-
-				for (Article article : articles) {
-					if (id == article.getId()) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
 
 				if (foundArticle == null) {
 					System.out.println(id + "번 게시물은 존재하지 않습니다.");
@@ -229,27 +200,13 @@ public class App {
 			}
 
 			else if (cmd.startsWith("article delete ")) {
-				String[] cmdBits = cmd.split(" ");
-				int id = 0;
-
-				try {
-					id = Integer.parseInt(cmdBits[2]);
-
-				} catch (NumberFormatException e) {
+				int id = getIdByCmd(cmd);
+				
+				if (id == 0) {
 					System.out.println("명령어가 올바르지 않습니다.");
-					continue;
-				} catch (Exception e) {
-					System.out.println("error : " + e);
 				}
 
-				Article foundArticle = null;
-
-				for (Article article : articles) {
-					if (id == article.getId()) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
 
 				if (foundArticle == null) {
 					System.out.println(id + "번 게시물은 존재하지 않습니다.");
@@ -269,17 +226,31 @@ public class App {
 		System.out.println("== 프로그램 종료 ==");
 	}
 	
-	private void makeArticleTestData() {
-		System.out.println("테스트 게시물 데이터 3개를 생성했습니다!");
-		for (int i = 1; i < 4; i++) {
-			articles.add(new Article(++lastArticleId, Util.getDateStr(), (i + "번"), (i + "번 게시물 내용"), (i * 10)));
+	private int getIdByCmd(String cmd) {
+		String[] cmdBits = cmd.split(" ");
+
+		try {
+			int id = Integer.parseInt(cmdBits[2]);
+			return id;
+		} catch (NumberFormatException e) {
+			return 0;
 		}
 	}
 	
-	private void makeMemberTestData() {
-		System.out.println("테스트 회원 데이터 3개를 생성했습니다!");
+	private Article getArticleById(int id) {
+		for (Article article : articles) {
+			if (id == article.getId()) {
+				return article;
+			}
+		}
+		return null;
+	}
+	
+	private void makeTestData() {
+		System.out.println("테스트 게시물 데이터와 회원 데이터를 생성했습니다!");
 		for (int i = 1; i < 4; i++) {
-			members.add(new Member(++lastMemberId, Util.getDateStr(), ("user" + i), "1234", ("유저" + i)));
+			articles.add(new Article(++lastArticleId, Util.getDateStr(), (i + "번"), (i + "번 게시물 내용"), (i * 10)));
+			members.add(new Member(++lastMemberId, Util.getDateStr(), ("user" + i), ("user" + i), ("유저" + i)));
 		}
 	}
 }
