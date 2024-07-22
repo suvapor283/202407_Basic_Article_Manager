@@ -24,7 +24,8 @@ public class App {
 	public void run() {
 		System.out.println("== 프로그램 시작 ==");
 
-		makeTestData();
+		makeArticleTestData();
+		makeMemberTestData();
 
 		Scanner sc = new Scanner(System.in);
 
@@ -176,7 +177,6 @@ public class App {
 				}
 
 				if (foundArticle == null) {
-
 					System.out.println(id + "번 게시물은 존재하지 않습니다.");
 					continue;
 				}
@@ -257,7 +257,7 @@ public class App {
 				}
 
 				articles.remove(foundArticle);
-				System.out.println(id + "번 게시물이 삭제되었습니다.");
+				System.out.println(foundArticle.getId() + "번 게시물이 삭제되었습니다.");
 			}
 
 			else {
@@ -269,10 +269,17 @@ public class App {
 		System.out.println("== 프로그램 종료 ==");
 	}
 	
-	private void makeTestData() {
+	private void makeArticleTestData() {
 		System.out.println("테스트 게시물 데이터 3개를 생성했습니다!");
 		for (int i = 1; i < 4; i++) {
 			articles.add(new Article(++lastArticleId, Util.getDateStr(), (i + "번"), (i + "번 게시물 내용"), (i * 10)));
+		}
+	}
+	
+	private void makeMemberTestData() {
+		System.out.println("테스트 회원 데이터 3개를 생성했습니다!");
+		for (int i = 1; i < 4; i++) {
+			members.add(new Member(++lastMemberId, Util.getDateStr(), ("user" + i), "1234", ("유저" + i)));
 		}
 	}
 }
