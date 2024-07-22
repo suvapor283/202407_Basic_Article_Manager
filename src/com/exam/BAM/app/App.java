@@ -43,25 +43,33 @@ public class App {
 			}
 			
 			if (cmd.equals("member join")) {
-				String loginId;
-				String loginPw;
-				String name;
+				String loginId = null;
+				String loginPw = null;
+				String name = null;
 				
 				while (true) {
 					System.out.print("아이디 : ");
 					loginId = sc.nextLine().trim();
-					
+
 					if (loginId.isEmpty()) {
 						System.out.println("필수 입력 정보입니다.");
 						continue;
 					}
 					
+					boolean isLoginIdDup = false;
+					
 					for (Member member : members) {
-						if (loginId.equals(member.loginId)) {
-							System.out.println("해당 아이디는 이미 존재하는 아이디입니다.");
+						if (loginId.equals(member.getLoginId())) {
+							isLoginIdDup = true;
 							break;
 						}
 					}
+					if (isLoginIdDup) {
+						System.out.printf("[ %s ]는 이미 존재하는 아이디입니다 !!\n", loginId);
+						continue;
+					}
+					
+					System.out.printf("[ %s ]는 사용가능한 아이디입니다 !!\n", loginId);
 					break;
 				}
 				
@@ -94,8 +102,9 @@ public class App {
 					}
 					break;
 				}
-				members.add(new Member(++lastMemberId, loginId, loginPw, name));
-				System.out.println(name + "님 회원가입을 축하합니다 !!");
+				
+				members.add(new Member(++lastMemberId, Util.getDateStr(), loginId, loginPw, name));
+				System.out.printf("[ %s ]님 회원가입을 축하합니다 !!\n", name);
 			}
 
 			else if (cmd.equals("article write")) {
