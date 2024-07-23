@@ -18,7 +18,7 @@ public class MemberController {
 		this.lastMemberId = 0;
 	}
 
-	public void dojoin() {
+	public void doJoin() {
 		String loginId = null;
 		String loginPw = null;
 		String name = null;
