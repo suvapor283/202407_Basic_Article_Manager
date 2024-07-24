@@ -28,6 +28,9 @@ public class MemberController extends Controller {
 		case "login":
 			dologin();
 			break;
+		case "logout":
+			doLogout();
+			break;
 		default:
 			System.out.println("존재하지 않는 명령어입니다.");
 		}
@@ -127,6 +130,16 @@ public class MemberController extends Controller {
 
 		this.loginedMember = foundMember;
 		System.out.printf("[ %s ]님 로그인 되었습니다.\n", loginedMember.getLoginId());
+	}
+	
+	private void doLogout() {
+		if (loginedMember == null) {
+			System.out.println("로그인이 되어 있지 않습니다.");
+			return;
+		}
+		
+		loginedMember = null;
+		System.out.println("로그아웃 되었습니다.");
 	}
 
 	private Member getMemberByLoginId(String loginId) {
