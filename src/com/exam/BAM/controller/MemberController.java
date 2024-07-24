@@ -10,13 +10,11 @@ import com.exam.BAM.util.Util;
 public class MemberController extends Controller {
 
 	private List<Member> members;
-	private Member loginedMember;
 
 	public MemberController(Scanner sc) {
 		this.sc = sc;
 		this.members = new ArrayList<>();
 		this.lastId = 0;
-		this.loginedMember = null;
 	}
 
 	@Override
@@ -41,7 +39,7 @@ public class MemberController extends Controller {
 		String loginPw = null;
 		String name = null;
 
-		while (true) {
+		while (true) { 
 			System.out.print("아이디 : ");
 			loginId = sc.nextLine().trim();
 
@@ -128,7 +126,7 @@ public class MemberController extends Controller {
 			return;
 		}
 
-		this.loginedMember = foundMember;
+		loginedMember = foundMember;
 		System.out.printf("[ %s ]님 로그인 되었습니다.\n", loginedMember.getLoginId());
 	}
 	

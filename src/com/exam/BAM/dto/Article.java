@@ -6,14 +6,16 @@ public class Article {
 	private String regDate;
 	private String title;
 	private String body;
+	private String memberId;
 	private int veiwCnt;
 
-	public Article(int id, String regDate, String title, String body, int veiwCnt) {
+	public Article(int id, String regDate, String title, String body, String memberId, int veiwCnt) {
 
 		this.id = id;
 		this.regDate = regDate;
 		this.title = title;
 		this.body = body;
+		this.memberId = memberId;
 		this.veiwCnt = veiwCnt;
 	}
 
@@ -47,6 +49,14 @@ public class Article {
 
 	public void setBody(String body) {
 		this.body = body;
+	}
+	
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 
 	public int getVeiwCnt() {
