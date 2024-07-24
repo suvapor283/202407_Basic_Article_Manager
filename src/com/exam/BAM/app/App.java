@@ -3,6 +3,7 @@ package com.exam.BAM.app;
 import java.util.Scanner;
 
 import com.exam.BAM.controller.ArticleController;
+import com.exam.BAM.controller.Controller;
 import com.exam.BAM.controller.MemberController;
 
 public class App {
@@ -31,33 +32,32 @@ public class App {
 				continue;
 			}
 			
-			if (cmd.equals("member join")) {
-				memberController.doJoin();
-			}
-
-			else if (cmd.equals("article write")) {
-				articleController.doWrite();
+			String[] cmdBits = cmd.split(" ");
+			
+			if (cmdBits.length < 2) {
+				System.out.println("존재하지 않는 명령어입니다.");
+				continue;
 			}
 			
-			else if (cmd.startsWith("article list")) {
-				articleController.showList(cmd);
+			String controllerName = cmdBits[0];
+			String methodName = cmdBits[1];
+			
+			Controller controller = null;
+			
+			if (controllerName.equals("member")) {
+				controller = memberController;
 			}
-
-			else if (cmd.startsWith("article detail ")) {
-				articleController.showDetail(cmd);
+			
+			else if (controllerName.equals("article")) {
+				controller = articleController;
 			}
-
-			else if (cmd.startsWith("article modify ")) {
-				articleController.doModify(cmd);
-			}
-
-			else if (cmd.startsWith("article delete ")) {
-				articleController.doDelete(cmd);
-			}
-
+			
 			else {
 				System.out.println("존재하지 않는 명령어입니다.");
+				continue;
 			}
+			
+			controller.doAction(cmd, methodName);
 		}
 
 		sc.close();

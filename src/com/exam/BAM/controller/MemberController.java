@@ -7,15 +7,25 @@ import java.util.Scanner;
 import com.exam.BAM.dto.Member;
 import com.exam.BAM.util.Util;
 
-public class MemberController {
-	private Scanner sc;
-	private List<Member> members;
-	private int lastMemberId;
+public class MemberController extends Controller {
 
+	public List<Member> members;
+	
 	public MemberController(Scanner sc) {
 		this.sc = sc;
 		this.members = new ArrayList<>();
-		this.lastMemberId = 0;
+		this.lastId = 0;
+	}
+	
+	@Override
+	public void doAction(String cmd, String methodName) {
+		switch (methodName) {
+		case "join":
+			doJoin();
+			break;
+		default:
+			System.out.println("존재하지 않는 명령어입니다.");
+		}
 	}
 
 	public void doJoin() {
@@ -79,14 +89,15 @@ public class MemberController {
 			break;
 		}
 
-		members.add(new Member(++lastMemberId, Util.getDateStr(), loginId, loginPw, name));
+		members.add(new Member(++lastId, Util.getDateStr(), loginId, loginPw, name));
 		System.out.printf("[ %s ]님 회원가입을 축하합니다 !!\n", name);
 	}
 
+	@Override
 	public void makeTestData() {
 		System.out.println("테스트용 회원 데이터 3개를 생성했습니다!");
 		for (int i = 1; i <= 3; i++) {
-			members.add(new Member(++lastMemberId, Util.getDateStr(), ("user" + i), ("user" + i), ("유저" + i)));
+			members.add(new Member(++lastId, Util.getDateStr(), ("user" + i), ("user" + i), ("유저" + i)));
 		}
 	}
 }
