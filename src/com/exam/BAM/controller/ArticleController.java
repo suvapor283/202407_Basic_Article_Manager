@@ -9,7 +9,7 @@ import com.exam.BAM.util.Util;
 
 public class ArticleController extends Controller {
 	
-	public List<Article> articles;
+	private List<Article> articles;
 	
 	public ArticleController(Scanner sc) {
 		this.sc = sc;
@@ -42,7 +42,7 @@ public class ArticleController extends Controller {
 		}
 	}
 
-	public void doWrite() {
+	private void doWrite() {
 		System.out.print("제목 : ");
 		String title = sc.nextLine().trim();
 		System.out.print("내용 : ");
@@ -54,7 +54,7 @@ public class ArticleController extends Controller {
 		System.out.println(lastId + "번 글이 생성되었습니다.");
 	}
 
-	public void showList() {
+	private void showList() {
 		if (articles.isEmpty()) {
 			System.out.println("게시물이 존재하지 않습니다.");
 			return;
@@ -87,7 +87,7 @@ public class ArticleController extends Controller {
 		}
 	}
 
-	public void showDetail() {
+	private void showDetail() {
 		int id = getIdByCmd(cmd);
 		
 		if (id == 0) {
@@ -110,7 +110,7 @@ public class ArticleController extends Controller {
 		System.out.println("조회수 : " + foundArticle.getVeiwCnt());
 	}
 
-	public void doModify() {
+	private void doModify() {
 		int id = getIdByCmd(cmd);
 		
 		if (id == 0) {
@@ -134,7 +134,7 @@ public class ArticleController extends Controller {
 		System.out.println(id + "번 게시물이 수정되었습니다.");	
 	}
 
-	public void doDelete() {
+	private void doDelete() {
 		int id = getIdByCmd(cmd);
 		
 		if (id == 0) {
