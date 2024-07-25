@@ -91,14 +91,7 @@ public class ArticleController extends Controller {
 		for (int i = printArticles.size() - 1; i >= 0; i--) {
 			Article article = printArticles.get(i);
 			
-			String writerName = null;
-			
-			for (Member member : Container.members) {
-				if (article.getMemberId() == member.getId()) {
-					writerName = member.getLoginId();
-					break;
-				}
-			}
+			String writerName = getWriterName(article.getMemberId());
 			
 			System.out.printf("%d	|	%s	|	%s	|	%s	|	%d\n", article.getId(), article.getTitle(), article.getRegDate(), writerName, article.getVeiwCnt());
 		}
@@ -121,14 +114,7 @@ public class ArticleController extends Controller {
 
 		foundArticle.increaseViewCnt();
 		
-		String writerName = null;
-		
-		for (Member member : Container.members) {
-			if (foundArticle.getMemberId() == member.getId()) {
-				writerName = member.getLoginId();
-				break;
-			}
-		}
+		String writerName = getWriterName(foundArticle.getMemberId());
 
 		System.out.println("번호 : " + foundArticle.getId());
 		System.out.println("작성일 : " + foundArticle.getRegDate());
@@ -159,7 +145,7 @@ public class ArticleController extends Controller {
 		}
 		
 		if (loginedMember.getId() != foundArticle.getMemberId()) {
-			System.out.println("권한이 없습니다.");
+			System.out.println("해당 게시물에 대한 권한이 없습니다.");
 			return;
 		}
 
@@ -194,7 +180,7 @@ public class ArticleController extends Controller {
 		}
 		
 		if (loginedMember.getId() != foundArticle.getMemberId()) {
-			System.out.println("권한이 없습니다.");
+			System.out.println("해당 게시물에 대한 권한이 없습니다.");
 			return;
 		}
 
@@ -219,6 +205,15 @@ public class ArticleController extends Controller {
 		for (Article article : articles) {
 			if (id == article.getId()) {
 				return article;
+			}
+		}
+		return null;
+	}
+	
+	private String getWriterName(int id) {
+		for (Member member : Container.members) {
+			if (id == member.getId()) {
+				return member.getLoginId();
 			}
 		}
 		return null;
