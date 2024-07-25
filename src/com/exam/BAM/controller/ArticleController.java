@@ -45,11 +45,6 @@ public class ArticleController extends Controller {
 	}
 
 	private void doWrite() {
-		if (loginedMember == null) {
-			System.out.println("로그인을 해주세요.");
-			return;
-		}
-		
 		System.out.print("제목 : ");
 		String title = sc.nextLine().trim();
 		System.out.print("내용 : ");
@@ -125,11 +120,6 @@ public class ArticleController extends Controller {
 	}
 
 	private void doModify() {
-		if (loginedMember == null) {
-			System.out.println("로그인을 해주세요.");
-			return;
-		}
-		
 		int id = getIdByCmd(cmd);
 		
 		if (id == 0) {
@@ -160,11 +150,6 @@ public class ArticleController extends Controller {
 	}
 
 	private void doDelete() {
-		if (loginedMember == null) {
-			System.out.println("로그인을 해주세요.");
-			return;
-		}
-		
 		int id = getIdByCmd(cmd);
 		
 		if (id == 0) {
