@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.exam.BAM.container.Container;
 import com.exam.BAM.dto.Article;
+import com.exam.BAM.dto.Member;
 import com.exam.BAM.util.Util;
 
 public class ArticleController extends Controller {
@@ -13,8 +15,8 @@ public class ArticleController extends Controller {
 	
 	public ArticleController(Scanner sc) {
 		this.sc = sc;
-		this.articles = new ArrayList<>();
 		this.lastId = 0;
+		this.articles = Container.articles;
 	}
 	
 	@Override
@@ -54,7 +56,7 @@ public class ArticleController extends Controller {
 		String body = sc.nextLine().trim();
 
 		lastId++;
-		articles.add(new Article(lastId, Util.getDateStr(), title, body, loginedMember.getLoginId(), 0));
+		articles.add(new Article(lastId, Util.getDateStr(), loginedMember.getId(), title, body, 0));
 
 		System.out.println(lastId + "번 글이 생성되었습니다.");
 	}
@@ -88,7 +90,17 @@ public class ArticleController extends Controller {
 
 		for (int i = printArticles.size() - 1; i >= 0; i--) {
 			Article article = printArticles.get(i);
-			System.out.printf("%d	|	%s	|	%s	|	%s	|%d\n", article.getId(), article.getTitle(), article.getRegDate(),article.getMemberId(), article.getVeiwCnt());
+			
+			String writerName = null;
+			
+			for (Member member : Container.members) {
+				if (article.getMemberId() == member.getId()) {
+					writerName = member.getLoginId();
+					break;
+				}
+			}
+			
+			System.out.printf("%d	|	%s	|	%s	|	%s	|	%d\n", article.getId(), article.getTitle(), article.getRegDate(), writerName, article.getVeiwCnt());
 		}
 	}
 
@@ -108,12 +120,21 @@ public class ArticleController extends Controller {
 		}
 
 		foundArticle.increaseViewCnt();
+		
+		String writerName = null;
+		
+		for (Member member : Container.members) {
+			if (foundArticle.getMemberId() == member.getId()) {
+				writerName = member.getLoginId();
+				break;
+			}
+		}
 
 		System.out.println("번호 : " + foundArticle.getId());
 		System.out.println("작성일 : " + foundArticle.getRegDate());
+		System.out.println("작성자 : " + writerName);
 		System.out.println("제목 : " + foundArticle.getTitle());
 		System.out.println("내용 : " + foundArticle.getBody());
-		System.out.println("조회수 : " + foundArticle.getMemberId());
 		System.out.println("조회수 : " + foundArticle.getVeiwCnt());
 	}
 
@@ -134,6 +155,11 @@ public class ArticleController extends Controller {
 
 		if (foundArticle == null) {
 			System.out.println(id + "번 게시물은 존재하지 않습니다.");
+			return;
+		}
+		
+		if (loginedMember.getId() != foundArticle.getMemberId()) {
+			System.out.println("권한이 없습니다.");
 			return;
 		}
 
@@ -164,6 +190,11 @@ public class ArticleController extends Controller {
 
 		if (foundArticle == null) {
 			System.out.println(id + "번 게시물은 존재하지 않습니다.");
+			return;
+		}
+		
+		if (loginedMember.getId() != foundArticle.getMemberId()) {
+			System.out.println("권한이 없습니다.");
 			return;
 		}
 
@@ -197,7 +228,7 @@ public class ArticleController extends Controller {
 	public void makeTestData() {
 		System.out.println("테스트용 게시물 데이터와 3개를 생성했습니다!");
 		for (int i = 1; i < 4; i++) {
-			articles.add(new Article(++lastId, Util.getDateStr(), (i + "번"), (i + "번 게시물 내용"), ("user" + i), (i * 10)));
+			articles.add(new Article(++lastId, Util.getDateStr(), (int)(Math.random()* 3 ) + 1, (i + "번"), (i + "번 게시물 내용"), (i * 10)));
 		}
 	}
 }
