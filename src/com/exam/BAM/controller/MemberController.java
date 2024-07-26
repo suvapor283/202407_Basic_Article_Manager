@@ -6,7 +6,6 @@ import com.exam.BAM.dto.Member;
 import com.exam.BAM.service.MemberService;
 
 public class MemberController extends Controller {
-
 	private MemberService memberService;
 
 	public MemberController(Scanner sc) {
@@ -106,19 +105,19 @@ public class MemberController extends Controller {
 			return;
 		}
 
-		Member Member = memberService.getMemberByLoginId(loginId);
+		Member member = memberService.getMemberByLoginId(loginId);
 
-		if (Member == null) {
+		if (member == null) {
 			System.out.printf("[ %s ]은(는) 존재하지 않는 아이디입니다.\n", loginId);
 			return;
 		}
 		
-		if (Member.getLoginPw().equals(loginPw) == false) {
+		if (member.getLoginPw().equals(loginPw) == false) {
 			System.out.println("비밀번호를 확인해주세요.");
 			return;
 		}
 
-		loginedMember = Member;
+		loginedMember = member;
 		System.out.printf("[ %s ]님 로그인 되었습니다.\n", loginedMember.getLoginId());
 	}
 	
