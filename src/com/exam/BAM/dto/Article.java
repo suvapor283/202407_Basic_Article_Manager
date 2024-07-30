@@ -7,16 +7,16 @@ public class Article {
 	private int memberId;
 	private String title;
 	private String body;
-	private int veiwCnt;
+	private int viewCnt;
 
-	public Article(int id, String regDate, int memberId, String title, String body, int veiwCnt) {
+	public Article(int id, String regDate, int memberId, String title, String body, int viewCnt) {
 
 		this.id = id;
 		this.regDate = regDate;
 		this.memberId = memberId;
 		this.title = title;
 		this.body = body;
-		this.veiwCnt = veiwCnt;
+		this.viewCnt = viewCnt;
 	}
 
 	public int getId() {
@@ -59,15 +59,15 @@ public class Article {
 		this.body = body;
 	}
 
-	public int getVeiwCnt() {
-		return veiwCnt;
+	public int getViewCnt() {
+		return viewCnt;
 	}
 
-	public void setVeiwCnt(int veiwCnt) {
-		this.veiwCnt = veiwCnt;
+	public void setViewCnt(int viewCnt) {
+		this.viewCnt = viewCnt;
 	}
 
 	public void increaseViewCnt() {
-		this.veiwCnt++;
+		this.viewCnt++;
 	}
 }

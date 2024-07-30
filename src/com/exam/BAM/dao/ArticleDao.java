@@ -3,7 +3,6 @@ package com.exam.BAM.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.exam.BAM.container.Container;
 import com.exam.BAM.dto.Article;
 import com.exam.BAM.util.Util;
 
@@ -12,29 +11,23 @@ public class ArticleDao {
 	private int lastId;
 	
 	public ArticleDao() {
-		this.articles = Container.articles;
+		this.articles = new ArrayList<>();
 		this.lastId = 0;
 	}
 
 	public void writeArticle(int memberId, String title, String body, int viewCnt) {
-		articles.add(new Article(++lastId, Util.getDateStr(), memberId, title, body, viewCnt));
-	}
-	
-	public void removeArticle(Article article) {
-		articles.remove(article);
+		lastId++;
+		articles.add(new Article(lastId, Util.getDateStr(), memberId, title, body, viewCnt));
 	}
 
-	public Article getArticleById(int id) {
-		for (Article article : articles) {
-			if (id == article.getId()) {
-				return article;
-			}
-		}
-		return null;
+	public int getLastId() {
+		return lastId;
 	}
 
 	public List<Article> getArticles(String searchKeyword) {
 		if (searchKeyword.length() > 0) {
+			System.out.println("검색어 : " + searchKeyword);
+
 			List<Article> printArticles = new ArrayList<>();
 			
 			for (Article article : articles) {
@@ -45,12 +38,16 @@ public class ArticleDao {
 			
 			return printArticles;
 		}
-		
 		return articles;
 	}
 
-	public int getLastId() {
-		return lastId;
+	public Article getArticleById(int id) {
+		for (Article article : articles){
+			if (id == article.getId()) {
+				return article;
+			}
+		}
+		return null;
 	}
 
 	public void increaseViewCnt(Article foundArticle) {
@@ -60,5 +57,9 @@ public class ArticleDao {
 	public void modifyArticle(Article foundArticle, String title, String body) {
 		foundArticle.setTitle(title);
 		foundArticle.setBody(body);
+	}
+
+	public void deleteArticle(Article foundArticle) {
+		articles.remove(foundArticle);
 	}
 }
