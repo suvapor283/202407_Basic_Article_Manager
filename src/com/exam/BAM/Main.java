@@ -7,3 +7,5 @@ public class Main {
 		new App().run();
 	}
 }
+
+// Basic Article Manager 완료
